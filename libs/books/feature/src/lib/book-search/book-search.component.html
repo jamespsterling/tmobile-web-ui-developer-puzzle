@@ -59,6 +59,7 @@
               mat-flat-button
               color="primary"
               role="button"
+              [attr.data-testing]="(b.isAdded) ? 'book-item-want-to-read-disabled' : 'book-item-want-to-read'"
               [attr.aria-label]="'Add ' + b.title + ' to reading list'"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
