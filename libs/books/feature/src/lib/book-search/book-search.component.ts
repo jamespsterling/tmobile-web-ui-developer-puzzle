@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { fromEvent } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 import {
   addToReadingList,
   clearSearch,
@@ -17,6 +19,9 @@ import { Book } from '@tmo/shared/models';
   styleUrls: ['./book-search.component.scss']
 })
 export class BookSearchComponent implements OnInit {
+
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+
   books: ReadingListBook[];
   loading = true;
 
@@ -45,6 +50,22 @@ export class BookSearchComponent implements OnInit {
         this.loading = false
       }
     });
+
+    fromEvent(this.searchInput.nativeElement, 'keyup')
+      .pipe(
+        map((e: any) => {
+          if (e.key === 'Enter' || e.key === 'Meta') {
+            return false;
+          }
+          return true;
+        }),
+        debounceTime(500)
+      )
+      .subscribe((validKey) => {
+        if (validKey) {
+          this.searchBooks();
+        }
+      });
   }
 
   formatDate(date: void | string) {
