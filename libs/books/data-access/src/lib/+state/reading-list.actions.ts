@@ -7,6 +7,7 @@ export const loadReadingListSuccess = createAction(
   '[Reading List API] Load list success',
   props<{ list: ReadingListItem[] }>()
 );
+
 export const loadReadingListError = createAction(
   '[Reading List API] Load list error',
   props<{ error: string }>()
