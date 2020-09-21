@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Confirm</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to mark "<b>{{data.title}}</b>" as finished?</p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button role="button" aria-label="Close" (click)="dialogRef.close()">Cancel</button>
+  <button 
+    mat-flat-button
+    role="button"
+    aria-label="Confirm"
+    data-testing="confirm-mark-finished"
+    (click)="dialogRef.close(data)"
+    cdkFocusInitial>Yes</button>
+</div>

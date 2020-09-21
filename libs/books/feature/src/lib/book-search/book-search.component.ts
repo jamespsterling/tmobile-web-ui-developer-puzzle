@@ -24,7 +24,7 @@ export class BookSearchComponent implements OnInit {
     term: ''
   });
 
-  error = this.store.select(getBooksError);
+  error$ = this.store.select(getBooksError);
 
   constructor(
     private readonly store: Store,

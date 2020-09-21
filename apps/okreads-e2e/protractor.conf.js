@@ -47,7 +47,7 @@ exports.config = {
   },
   onComplete() {
     // Keep browser session alive for 3 seconds for reviewers to see result before close.
-    return new Promise(res => setTimeout(res, 3000))
+    return new Promise(res => setTimeout(res, 3000));
   },
   specs: [
     './src/specs/reading-list.spec.ts',
