@@ -3,18 +3,42 @@
     <input
       autoFocus
       matInput
+      id="search"
       type="search"
+      role="searchbox"
+      aria-label="Search input"
+      tabindex="1"
       placeholder="Search for books to add to your reading list"
       formControlName="term"
     />
-    <button mat-icon-button matSuffix>
+    <button
+      mat-icon-button
+      matSuffix
+      role="search"
+      tabindex="2"
+      aria-labelledby="search">
       <mat-icon>search</mat-icon>
+    </button>
+    <button
+      *ngIf="searchTerm"
+      mat-icon-button
+      matSuffix
+      role="clear"
+      tabindex="2"
+      aria-label="Reset Search"
+      (click)="resetSearch()">
+      <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
 </form>
 
 <ng-container *ngIf="searchTerm; else empty">
-  <div class="book-grid">
+
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="book-grid" *ngIf="!loading">
     <div class="book" data-testing="book-item" *ngFor="let b of books">
       <div class="book--title">
         {{ b.title }}
@@ -24,9 +48,9 @@
           <img src="{{ b.coverUrl }}" />
         </div>
         <div class="book--content--info">
-          <div><strong>Author:</strong> {{ b.authors.join(',') }}</div>
-          <div><strong>Publisher:</strong> {{ b.publisher }}</div>
-          <div>
+          <div *ngIf="b.authors.length > 0"><strong>Author:</strong> {{ b.authors.join(',') }}</div>
+          <div *ngIf="b.publisher"><strong>Publisher:</strong> {{ b.publisher }}</div>
+          <div *ngIf="b.publishedDate">
             <strong>Published:</strong> {{ formatDate(b.publishedDate) }}
           </div>
           <p [innerHTML]="b.description"></p>
@@ -34,6 +58,8 @@
             <button
               mat-flat-button
               color="primary"
+              role="button"
+              [attr.aria-label]="'Add ' + b.title + ' to reading list'"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
             >
@@ -45,10 +71,19 @@
     </div>
   </div>
 </ng-container>
+
+<div *ngIf="!loading && searchTerm && error | async as errorMessage" class="error">
+  <p>
+    There was an error fetching your query. Please try again.
+  </p>
+  <p class="error-text">({{ errorMessage.statusText }})</p>
+</div>
+
 <ng-template #empty>
   <div class="empty">
     <p>
-      Try searching for a topic, for example "<a (click)="searchExample()"
+      Try searching for a topic, for example "<a role="link" aria-label="Search Example"
+          tabindex="3" (keyup.enter)="searchExample()" (click)="searchExample()"
         >JavaScript</a
       >".
     </p>
