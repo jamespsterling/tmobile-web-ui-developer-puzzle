@@ -59,11 +59,12 @@
               mat-flat-button
               color="primary"
               role="button"
+              data-testing="book-item-want-to-read"
               [attr.aria-label]="'Add ' + b.title + ' to reading list'"
               (click)="addBookToReadingList(b)"
-              [disabled]="b.isAdded"
+              [disabled]="b.isAdded || b.isFinished"
             >
-              Want to Read
+              {{(!b.isFinished) ? 'Want to Read' : 'Finished'}}
             </button>
           </div>
         </div>
@@ -72,7 +73,7 @@
   </div>
 </ng-container>
 
-<div *ngIf="!loading && searchTerm && error | async as errorMessage" class="error">
+<div *ngIf="!loading && searchTerm && error$ | async as errorMessage" class="error">
   <p>
     There was an error fetching your query. Please try again.
   </p>

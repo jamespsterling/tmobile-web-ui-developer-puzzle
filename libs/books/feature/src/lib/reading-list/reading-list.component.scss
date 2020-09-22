@@ -19,6 +19,10 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  .reading-list-item--actions {
+    display: inline;
+  }
 }
 
 .reading-list-item--cover {
@@ -38,6 +42,10 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.reading-list-item--mark-finished {
+  color: #0ebb0e;
 }
 
 .empty {
