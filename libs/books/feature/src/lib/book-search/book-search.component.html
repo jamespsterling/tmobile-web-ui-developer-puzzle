@@ -1,6 +1,7 @@
 <form [formGroup]="searchForm" (submit)="searchBooks()">
   <mat-form-field floatLabel="never">
     <input
+      #searchInput
       autoFocus
       matInput
       id="search"
